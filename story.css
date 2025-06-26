@@ -1,0 +1,65 @@
+
+body {
+  font-family: sans-serif;
+  background-color: #111;
+  color: #fff;
+  margin: 0;
+  padding: 0;
+}
+header {
+  background: #222;
+  padding: 10px;
+  text-align: center;
+}
+header nav a {
+  color: #fff;
+  margin: 0 10px;
+  text-decoration: none;
+}
+.story-detail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1em;
+}
+.cover-container img {
+  width: 160px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.5);
+}
+.info-container {
+  max-width: 600px;
+  margin-top: 1em;
+  text-align: center;
+}
+.buttons {
+  margin-top: 1em;
+}
+.buttons button {
+  margin: 0.5em;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px;
+  background: #444;
+  color: white;
+  cursor: pointer;
+}
+.buttons button:hover {
+  background: #666;
+}
+#scrollTopBtn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #444;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.chapter-selector {
+  text-align: center;
+  margin: 1em 0;
+}

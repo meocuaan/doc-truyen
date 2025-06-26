@@ -1,0 +1,76 @@
+body {
+  font-family: sans-serif;
+  background-color: #111;
+  color: #fff;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background: #222;
+  padding: 10px;
+  text-align: center;
+}
+
+header nav a {
+  color: #fff;
+  margin: 0 10px;
+  text-decoration: none;
+}
+
+.follow-list {
+  padding: 1em;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.follow-list h1 {
+  text-align: center;
+  margin-bottom: 1em;
+}
+
+.stories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.story-card {
+  background: #222;
+  border-radius: 8px;
+  overflow: hidden;
+  padding: 10px;
+  text-align: center;
+  box-shadow: 0 0 8px rgba(0,0,0,0.5);
+}
+
+.story-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.story-card h3 {
+  margin: 0.5em 0;
+  font-size: 1.1em;
+}
+
+.story-card p {
+  font-size: 0.9em;
+  color: #ccc;
+}
+
+.story-card button {
+  margin-top: 10px;
+  padding: 8px 12px;
+  background: #444;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.story-card button:hover {
+  background: #666;
+}
