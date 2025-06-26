@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Chỉnh sửa truyện</title>
+  <style>
+    body { font-family: sans-serif; background: #f5f5f5; padding: 20px; }
+    input, textarea { width: 100%; margin-top: 5px; margin-bottom: 15px; padding: 8px; border-radius: 6px; border: 1px solid #ccc; }
+    label { font-weight: bold; display: block; }
+    button { padding: 10px 20px; border: none; border-radius: 6px; background: #007bff; color: white; cursor: pointer; margin-top: 10px; }
+    button:hover { background: #0056b3; }
+    .chapter { background: white; padding: 15px; border-radius: 6px; margin-bottom: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    .img-preview { max-width: 200px; display: block; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <h1>Chỉnh sửa truyện</h1>
+
+  <label>Chọn file truyện (JSON)</label>
+  <input type="file" id="load-json" accept="application/json">
+
+  <label>ID truyện</label>
+  <input type="text" id="id">
+
+  <label>Tên truyện</label>
+  <input type="text" id="name">
+
+  <label>Mô tả</label>
+  <textarea id="description"></textarea>
+
+  <label>Thể loại</label>
+  <input type="text" id="genre">
+
+  <label>Ảnh bìa</label>
+  <input type="file" id="cover-file" accept="image/*">
+  <img id="cover-preview" class="img-preview">
+
+  <h3>Danh sách chương</h3>
+  <div id="chapters"></div>
+  <button onclick="addChapter()">➕ Thêm chương</button>
+
+  <br><br>
+  <button onclick="exportStory()">💾 Xuất truyen-moi.json</button>
+  <button onclick="exportAsStoriesJson()">📦 Xuất dạng stories.json</button>
+
+  <script>
+    let chapterCount = 0;
+    let coverBlobURL = "";
+
+    document.getElementById("cover-file").addEventListener("change", function () {
+      const file = this.files[0];
+      if (file) {
+        coverBlobURL = file.name;
+        document.getElementById("cover-preview").src = URL.createObjectURL(file);
+      }
+    });
+
+    document.getElementById("load-json").addEventListener("change", function () {
+      const file = this.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const story = JSON.parse(e.target.result);
+        document.getElementById("id").value = story.id || "";
+        document.getElementById("name").value = story.name || "";
+        document.getElementById("description").value = story.description || "";
+        document.getElementById("genre").value = story.genre || "";
+        if (story.cover) {
+          coverBlobURL = story.cover;
+          document.getElementById("cover-preview").src = story.cover;
+        }
+        if (Array.isArray(story.chapters)) {
+          document.getElementById("chapters").innerHTML = "";
+          chapterCount = 0;
+          story.chapters.forEach(chap => {
+            addChapter(chap);
+          });
+        }
+      };
+      reader.readAsText(file);
+    });
+
+    function addChapter(data = {}) {
+      const container = document.getElementById("chapters");
+      const index = chapterCount++;
+      const div = document.createElement("div");
+      div.className = "chapter";
+      div.innerHTML = `
+        <label>ID chương</label>
+        <input type="text" id="chap-id-${index}" value="${data.id || ''}">
+        <label>Tên chương</label>
+        <input type="text" id="chap-name-${index}" value="${data.name || ''}">
+        <label>Chọn ảnh chương</label>
+        <input type="file" id="chap-img-${index}" accept="image/*" multiple>
+        <div id="preview-${index}"></div>
+      `;
+      container.appendChild(div);
+
+      const preview = document.getElementById(`preview-${index}`);
+      if (Array.isArray(data.images)) {
+        data.images.forEach(src => {
+          const img = document.createElement("img");
+          img.src = src;
+          img.className = "img-preview";
+          preview.appendChild(img);
+        });
+      }
+
+      document.getElementById(`chap-img-${index}`).addEventListener("change", function () {
+        preview.innerHTML = "";
+        Array.from(this.files).forEach(file => {
+          const img = document.createElement("img");
+          img.src = URL.createObjectURL(file);
+          img.className = "img-preview";
+          preview.appendChild(img);
+        });
+      });
+    }
+
+    function gatherStoryObject() {
+      const id = document.getElementById("id").value.trim();
+      const name = document.getElementById("name").value.trim();
+      const description = document.getElementById("description").value.trim();
+      const genre = document.getElementById("genre").value.trim();
+      const chapters = [];
+      for (let i = 0; i < chapterCount; i++) {
+        const chapId = document.getElementById(`chap-id-${i}`)?.value.trim();
+        const chapName = document.getElementById(`chap-name-${i}`)?.value.trim();
+        const files = document.getElementById(`chap-img-${i}`)?.files;
+        if (!chapId || !chapName) continue;
+        let images = [];
+        if (files?.length) {
+          images = Array.from(files).map(f => `assets/${id}/${chapId}/${f.name}`);
+        }
+        chapters.push({ id: chapId, name: chapName, images });
+      }
+      return {
+        id, name, description, genre,
+        cover: coverBlobURL ? `assets/${id}/cover.jpg` : "",
+        chapters
+      };
+    }
+
+    function exportStory() {
+      const story = gatherStoryObject();
+      const blob = new Blob([JSON.stringify(story, null, 2)], { type: "application/json" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "truyen-moi.json";
+      a.click();
+    }
+
+    function exportAsStoriesJson() {
+      const story = gatherStoryObject();
+      const stories = [story];
+      const blob = new Blob([JSON.stringify(stories, null, 2)], { type: "application/json" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "stories.json";
+      a.click();
+    }
+  </script>
+
+  <hr>
+  <h3>📦 Hướng dẫn (cho Electron hoặc server)</h3>
+  <ul>
+    <li>Ảnh bìa nên được đặt tại: <code>assets/[id]/cover.jpg</code></li>
+    <li>Ảnh chương nên đặt tại: <code>assets/[id]/[chap-id]/</code> và liệt kê đúng tên file</li>
+    <li>Ví dụ: <code>assets/demo/chap1/01.jpg</code></li>
+    <li>Khi xuất file, bạn cần tự copy ảnh vào đúng thư mục</li>
+    <li>Nếu dùng Electron, nên sử dụng thư mục <code>public/assets/</code> hoặc <code>./resources/</code></li>
+  </ul>
+</body>
+</html>
