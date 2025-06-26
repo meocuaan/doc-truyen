@@ -1,0 +1,69 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Gộp truyện mới vào stories.json</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; background: #f0f0f0; }
+    input { margin-top: 10px; }
+    button { padding: 10px 20px; margin-top: 15px; }
+    pre { background: #eee; padding: 10px; max-height: 300px; overflow: auto; }
+  </style>
+</head>
+<body>
+  <h1>Gộp truyện mới vào stories.json</h1>
+  <p>Chọn file <code>stories.json</code> gốc:</p>
+  <input type="file" id="baseFile"><br><br>
+
+  <p>Chọn file <code>truyen-moi.json</code> cần gộp:</p>
+  <input type="file" id="newFile"><br>
+
+  <button onclick="merge()">🔄 Gộp và tải stories mới</button>
+
+  <h3>Kết quả</h3>
+  <pre id="log">Chưa thực hiện</pre>
+
+  <script>
+    async function merge() {
+      const baseInput = document.getElementById("baseFile").files[0];
+      const newInput = document.getElementById("newFile").files[0];
+      const log = document.getElementById("log");
+
+      if (!baseInput || !newInput) {
+        alert("Vui lòng chọn đầy đủ 2 file.");
+        return;
+      }
+
+      const baseText = await baseInput.text();
+      const newText = await newInput.text();
+      let baseStories, newStory;
+
+      try {
+        baseStories = JSON.parse(baseText);
+        newStory = JSON.parse(newText);
+      } catch (e) {
+        log.textContent = "Lỗi khi đọc file JSON: " + e.message;
+        return;
+      }
+
+      const exists = baseStories.some(s => s.id === newStory.id);
+      if (exists) {
+        log.textContent = "❌ Truyện ID '" + newStory.id + "' đã tồn tại trong stories.json!";
+        return;
+      }
+
+      baseStories.push(newStory);
+      const mergedBlob = new Blob([JSON.stringify(baseStories, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(mergedBlob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "stories.json";
+      a.click();
+      URL.revokeObjectURL(url);
+
+      log.textContent = "✅ Đã gộp truyện mới vào stories.json thành công.";
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đọc truyện</title>
+  <link rel="stylesheet" href="styles/common.css">
+  <link rel="stylesheet" href="styles/reader.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="index.html">Trang chủ</a>
+      <a href="story.html" id="back-to-description">Chi tiết truyện</a>
+    </nav>
+  </header>
+
+  <main class="reader">
+    <div class="chapter-controls">
+      <button id="prev-chap">⬅️ Chương trước</button>
+      <select id="chapter-select"></select>
+      <button id="next-chap">Chương sau ➡️</button>
+    </div>
+
+    <div id="chapter-title">Chương 1</div>
+    <div id="image-container"></div>
+
+    <div class="reader-actions">
+      <button id="save-progress">💾 Lưu vị trí</button>
+    </div>
+  </main>
+
+  <button id="scrollTopBtn" title="Lên đầu trang">⬆️</button>
+
+  <!-- ✅ Dùng module import từ story-reader.js -->
+  <script type="module">
+    import { initReaderPage } from './scripts/story-reader.js';
+    initReaderPage();
+  </script>
+</body>
+</html>

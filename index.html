@@ -1,0 +1,79 @@
+
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trang chủ - Truyện</title>
+  <link rel="stylesheet" href="styles/common.css">
+  <link rel="stylesheet" href="styles/index.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="index.html">Trang chủ</a>
+      <a href="follow.html">Theo dõi</a>
+      <a href="history.html">Lịch sử</a>
+      <input type="text" id="search-input" placeholder="Tìm truyện...">
+      <ul id="search-suggestions"></ul>
+    </nav>
+  </header>
+
+  <div class="genre-bar" id="genre-filter"></div>
+  <main id="story-list" class="grid"></main>
+  <div id="pagination"></div>
+
+  <button id="scrollTopBtn">⬆️</button>
+
+  <script src="scripts/index.js"></script>
+</body>
+</html>
+
+<!-- follow.html -->
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Truyện theo dõi</title>
+  <link rel="stylesheet" href="styles/common.css">
+  <link rel="stylesheet" href="styles/index.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="index.html">Trang chủ</a>
+      <a href="history.html">Lịch sử</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Danh sách truyện theo dõi</h1>
+    <div id="follow-list" class="grid"></div>
+  </main>
+
+  <script>
+    const followed = JSON.parse(localStorage.getItem("followedStories")) || [];
+    const list = document.getElementById("follow-list");
+
+    if (followed.length === 0) {
+      list.innerHTML = "<p>Bạn chưa theo dõi truyện nào.</p>";
+    } else {
+      followed.forEach(story => {
+        const div = document.createElement("div");
+        div.className = "story-card";
+        div.innerHTML = `
+          <a href="story.html?id=${story.id}">
+            <img src="${story.cover}" alt="${story.name}">
+            <div class="story-info">
+              <h3>${story.name}</h3>
+              <p>${story.description}</p>
+            </div>
+          </a>
+        `;
+        list.appendChild(div);
+      });
+    }
+  </script>
+</body>
+</html>

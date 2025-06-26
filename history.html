@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chi tiết truyện</title>
+  <link rel="stylesheet" href="styles/common.css">
+  <link rel="stylesheet" href="styles/story.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="index.html">Trang chủ</a>
+      <a href="follow.html">Theo dõi</a>
+      <a href="history.html">Lịch sử</a>
+    </nav>
+  </header>
+
+  <main class="story-detail">
+    <div class="cover-container">
+      <img id="story-cover" src="" alt="Ảnh bìa">
+    </div>
+    <div class="info-container">
+      <h1 id="story-title">Tên truyện</h1>
+      <p id="story-genre">Thể loại: <span></span></p>
+      <p id="story-description">Mô tả ngắn...</p>
+      <div class="buttons">
+        <button id="read-first">Đọc từ đầu</button>
+        <button id="read-latest">Đọc mới nhất</button>
+        <button id="read-continue">Đọc tiếp</button>
+        <button id="follow-story">Lưu truyện</button>
+      </div>
+    </div>
+
+    <h2>Danh sách chương</h2>
+    <ul id="chapter-list"></ul>
+  </main>
+
+  <button id="scrollTopBtn">⬆️</button>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const storyId = params.get("id");
+    const storyList = JSON.parse(localStorage.getItem("stories")) || [];
+    const story = storyList.find(s => s.id === storyId);
+
+    if (story) {
+      document.getElementById("story-cover").src = story.cover;
+      document.getElementById("story-title").textContent = story.name;
+      document.getElementById("story-description").textContent = story.description;
+      document.querySelector("#story-genre span").textContent = story.genre;
+
+      const chapterList = document.getElementById("chapter-list");
+      if (story.chapters && story.chapters.length) {
+        story.chapters.forEach((chap, idx) => {
+          const li = document.createElement("li");
+          const link = document.createElement("a");
+          link.href = `reader.html?id=${story.id}&chap=${chap.id}`;
+          link.textContent = chap.name || `Chương ${idx + 1}`;
+          li.appendChild(link);
+          chapterList.appendChild(li);
+        });
+      }
+    }
+
+    // Nút chức năng
+    document.getElementById("read-first").onclick = () => {
+      if (story.chapters?.length)
+        location.href = `reader.html?id=${story.id}&chap=${story.chapters[0].id}`;
+    };
+
+    document.getElementById("read-latest").onclick = () => {
+      if (story.chapters?.length)
+        location.href = `reader.html?id=${story.id}&chap=${story.chapters[story.chapters.length - 1].id}`;
+    };
+
+    document.getElementById("read-continue").onclick = () => {
+      const history = JSON.parse(localStorage.getItem("readingHistory")) || [];
+      const item = history.find(h => h.storyId === story.id);
+      if (item) {
+        location.href = `reader.html?id=${story.id}&chap=${item.chapter}`;
+      } else {
+        alert("Bạn chưa đọc truyện này trước đó.");
+      }
+    };
+
+    document.getElementById("follow-story").onclick = () => {
+      let followed = JSON.parse(localStorage.getItem("followedStories")) || [];
+      if (!followed.some(f => f.id === story.id)) {
+        followed.push(story);
+        localStorage.setItem("followedStories", JSON.stringify(followed));
+        alert("Đã thêm vào danh sách theo dõi");
+      } else {
+        alert("Truyện đã có trong danh sách theo dõi");
+      }
+    };
+
+    const scrollTopBtn = document.getElementById("scrollTopBtn");
+    scrollTopBtn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+    window.addEventListener("scroll", () => {
+      scrollTopBtn.style.display = window.scrollY > 200 ? "block" : "none";
+    });
+  </script>
+</body>
+</html>

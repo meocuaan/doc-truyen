@@ -1,0 +1,96 @@
+[
+  {
+    "id": "luyenmaithanh",
+    "name": "Nông Nữ Thù Sắc",
+    "description": "Đang cập nhật.",
+    "genre": "Tu tiên, Huyền huyễn",
+    "cover": "assets/LuyenMaiThanh/cover.jpg",
+    "chapters": [
+      {
+        "id": "chap1",
+        "name": "chap 1",
+        "images": [
+          "assets/LuyenMaiThanh/ch1/01.jpg",
+          "assets/LuyenMaiThanh/ch1/02.jpg",
+          "assets/LuyenMaiThanh/ch1/03.jpg",
+          "assets/LuyenMaiThanh/ch1/04.jpg",
+          "assets/LuyenMaiThanh/ch1/05.jpg",
+          "assets/LuyenMaiThanh/ch1/06.jpg",
+          "assets/LuyenMaiThanh/ch1/07.jpg",
+          "assets/LuyenMaiThanh/ch1/08.jpg",
+          "assets/LuyenMaiThanh/ch1/09.jpg",
+          "assets/LuyenMaiThanh/ch1/10.jpg",
+          "assets/LuyenMaiThanh/ch1/11.jpg",
+          "assets/LuyenMaiThanh/ch1/12.jpg",
+          "assets/LuyenMaiThanh/ch1/13.jpg"
+        ]
+      },
+      {
+        "id": "chap2",
+        "name": "chap 2",
+        "images": [
+          "assets/LuyenMaiThanh/ch2/01.jpg",
+          "assets/LuyenMaiThanh/ch2/02.jpg",
+          "assets/LuyenMaiThanh/ch2/03.jpg",
+          "assets/LuyenMaiThanh/ch2/04.jpg",
+          "assets/LuyenMaiThanh/ch2/05.jpg",
+          "assets/LuyenMaiThanh/ch2/06.jpg",
+          "assets/LuyenMaiThanh/ch2/07.jpg",
+          "assets/LuyenMaiThanh/ch2/08.jpg"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "tuoitrevuive",
+    "name": "Tuổi Trẻ Vui Vẻ",
+    "description": "Truyện hài hước học đường.",
+    "genre": "Học đường, Hài hước",
+    "cover": "assets/tuoitrevuive/cover.jpg",
+    "chapters": [
+      {
+        "id": "chap1",
+        "name": "chap 1",
+        "images": [
+          "assets/tuoitrevuive/chap1/01.jpg",
+          "assets/tuoitrevuive/chap1/02.jpg",
+          "assets/tuoitrevuive/chap1/03.jpg",
+          "assets/tuoitrevuive/chap1/04.jpg",
+          "assets/tuoitrevuive/chap1/05.jpg",
+          "assets/tuoitrevuive/chap1/06.jpg",
+          "assets/tuoitrevuive/chap1/07.jpg",
+          "assets/tuoitrevuive/chap1/08.jpg",
+          "assets/tuoitrevuive/chap1/09.jpg",
+          "assets/tuoitrevuive/chap1/10.jpg",
+          "assets/tuoitrevuive/chap1/11.jpg",
+          "assets/tuoitrevuive/chap1/12.jpg",
+          "assets/tuoitrevuive/chap1/13.jpg"
+        ]
+      },
+      {
+        "id": "chap2",
+        "name": "chap 2",
+        "images": [
+          "assets/tuoitrevuive/chap2/01.jpg"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "conan",
+    "name": "Thám Tử Lừng Danh Đức Thiêm",
+    "description": "Shinichi Kudo - thám tử học đường bị teo nhỏ thành Conan.",
+    "genre": "Trinh thám, Hành động",
+    "cover": "assets/Conan/cover.jpg",
+    "chapters": [
+      {
+        "id": "chap1",
+        "name": "Chương 1",
+        "images": [
+          "assets/conan/chap1/01.jpg",
+          "assets/conan/chap1/02.jpg"
+        ]
+      }
+    ]
+  }
+]

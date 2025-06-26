@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chi tiết truyện</title>
+  <link rel="stylesheet" href="styles/common.css">
+  <link rel="stylesheet" href="styles/story.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="index.html">Trang chủ</a>
+      <a href="follow.html">Theo dõi</a>
+      <a href="history.html">Lịch sử</a>
+    </nav>
+  </header>
+
+  <main class="story-detail">
+    <div class="cover-container">
+      <img id="story-cover" src="" alt="Ảnh bìa">
+    </div>
+    <div class="info-container">
+      <h1 id="story-title">Tên truyện</h1>
+      <p id="story-genre">Thể loại: <span></span></p>
+      <p id="story-description">Mô tả ngắn...</p>
+      <div class="buttons">
+        <button id="read-first">Đọc từ đầu</button>
+        <button id="read-latest">Đọc mới nhất</button>
+        <button id="read-continue">Đọc tiếp</button>
+        <button id="follow-story">Lưu truyện</button>
+      </div>
+    </div>
+
+    <h2>Danh sách chương</h2>
+    <ul id="chapter-list"></ul>
+  </main>
+
+  <!-- ✅ Import module xử lý -->
+  <script type="module">
+    import { initStoryDetail } from './scripts/story-reader.js';
+    initStoryDetail();
+  </script>
+</body>
+</html>

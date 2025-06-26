@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Theo dõi truyện</title>
+  <link rel="stylesheet" href="styles/common.css">
+  <link rel="stylesheet" href="styles/follow.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="index.html">Trang chủ</a>
+      <a href="follow.html" class="active">Theo dõi</a>
+      <a href="history.html">Lịch sử</a>
+    </nav>
+  </header>
+
+  <main class="follow-list">
+    <h1>Danh sách truyện theo dõi</h1>
+    <div id="followed-stories" class="stories-grid"></div>
+  </main>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const container = document.getElementById("followed-stories");
+      const followed = JSON.parse(localStorage.getItem("followedStories")) || [];
+
+      if (followed.length === 0) {
+        container.innerHTML = "<p>Bạn chưa theo dõi truyện nào.</p>";
+        return;
+      }
+
+      followed.forEach(story => {
+        const card = document.createElement("div");
+        card.className = "story-card";
+        card.innerHTML = `
+          <a href="story.html?id=${story.id}">
+            <img src="${story.cover}" alt="${story.name}">
+            <h3>${story.name}</h3>
+            <p>${story.description}</p>
+          </a>
+        `;
+        container.appendChild(card);
+      });
+    });
+  </script>
+</body>
+</html>

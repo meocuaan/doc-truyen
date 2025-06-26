@@ -1,0 +1,95 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Thêm truyện mới</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; background: #f8f8f8; }
+    label { display: block; margin-top: 10px; }
+    input, textarea { width: 100%; padding: 8px; margin-top: 4px; }
+    button { margin-top: 15px; padding: 10px 20px; }
+    .chapter-block { border: 1px solid #ccc; padding: 10px; margin-top: 10px; background: #fff; }
+  </style>
+</head>
+<body>
+  <h1>Thêm truyện mới</h1>
+
+  <label>ID truyện</label>
+  <input type="text" id="id">
+
+  <label>Tên truyện</label>
+  <input type="text" id="name">
+
+  <label>Mô tả</label>
+  <textarea id="description"></textarea>
+
+  <label>Thể loại (cách nhau bằng dấu phẩy)</label>
+  <input type="text" id="genre">
+
+  <label>Đường dẫn ảnh bìa (VD: assets/truyen/cover.jpg)</label>
+  <input type="text" id="cover">
+
+  <h2>Danh sách chương</h2>
+  <div id="chapters"></div>
+  <button onclick="addChapter()">➕ Thêm chương</button>
+
+  <br><br>
+  <button onclick="exportJSON()">💾 Xuất truyen-moi.json</button>
+
+  <script>
+    let chapters = [];
+
+    function addChapter() {
+      const chapIndex = chapters.length;
+      const container = document.getElementById("chapters");
+
+      const div = document.createElement("div");
+      div.className = "chapter-block";
+      div.innerHTML = `
+        <label>Tên chương</label>
+        <input type="text" id="chap-name-${chapIndex}">
+        <label>ID chương (VD: chap1, chap2)</label>
+        <input type="text" id="chap-id-${chapIndex}">
+        <label>Ảnh chương (mỗi dòng 1 ảnh)</label>
+        <textarea id="chap-imgs-${chapIndex}"></textarea>
+      `;
+      container.appendChild(div);
+    }
+
+    function exportJSON() {
+      const id = document.getElementById("id").value.trim();
+      const name = document.getElementById("name").value.trim();
+      const description = document.getElementById("description").value.trim();
+      const genre = document.getElementById("genre").value.trim();
+      const cover = document.getElementById("cover").value.trim();
+
+      const chapterElems = document.querySelectorAll(".chapter-block");
+      const chapterData = [];
+
+      chapterElems.forEach((div, i) => {
+        const chapId = document.getElementById(`chap-id-${i}`).value.trim();
+        const chapName = document.getElementById(`chap-name-${i}`).value.trim();
+        const imgs = document.getElementById(`chap-imgs-${i}`).value.trim().split("\n").filter(x => x);
+        chapterData.push({
+          id: chapId,
+          name: chapName,
+          images: imgs
+        });
+      });
+
+      const story = {
+        id, name, description, genre, cover, chapters: chapterData
+      };
+
+      const blob = new Blob([JSON.stringify(story, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "truyen-moi.json";
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+  </script>
+</body>
+</html>
